@@ -43,6 +43,7 @@ jobs:
         id: release
 
       - name: Upload assets to release
+        if: ${{ steps.release.outputs.released == 'true' }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
