@@ -1,4 +1,4 @@
-name: CI
+name: automation-create-a-release
 
 on:
   push:
