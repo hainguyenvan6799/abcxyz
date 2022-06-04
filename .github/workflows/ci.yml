@@ -3,10 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - 'DM-[0-9]+'
-  pull_request:
-    branches:
-      - 'DM-[0-9]+'
+      - master
 
 jobs:
   build-and-package:
