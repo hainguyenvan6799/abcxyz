@@ -39,7 +39,7 @@ jobs:
           if-no-files-found: error
           retention-days: 10
 
-      - uses: hainguyenvan6799/automation-build-and-release@1.0.6
+      - uses: hainguyenvan6799/automation-build-and-release@1.0.7
         id: release
 
       - name: Upload assets to release
