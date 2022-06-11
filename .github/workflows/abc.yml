@@ -1,0 +1,45 @@
+name: automation-create-a-release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: 1.0.0
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout [main]
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v2
+        env:
+          CI: true
+        with:
+          node-version: 14.x
+
+      - run: npm -g config set https-proxy http://dc-ty3-squid-1.cb.local:3128
+      - run: npm -g config set proxy http://dc-ty3-squid-1.cb.local:3128
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build
+        run: npm run build
+
+      - uses: hai-nguyen/create-a-release@1.0.5
+        id: release
+
+      - name: Upload assets to release
+        if: ${{ steps.release.outputs.released == 'true' }}
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./release/${{ steps.release.outputs.release_name }}.zip
+          asset_name: ${{ steps.release.outputs.release_name }}.zip
+          asset_content_type: application/zip
+
